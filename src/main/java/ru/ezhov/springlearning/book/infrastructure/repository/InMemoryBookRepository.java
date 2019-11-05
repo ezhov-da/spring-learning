@@ -1,5 +1,6 @@
 package ru.ezhov.springlearning.book.infrastructure.repository;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import ru.ezhov.springlearning.book.domain.model.Book;
 import ru.ezhov.springlearning.book.domain.model.BookRepository;
@@ -9,6 +10,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
+@Profile("dev")
 @Repository
 public class InMemoryBookRepository implements BookRepository {
 
