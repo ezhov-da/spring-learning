@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,10 +20,14 @@ import java.util.List;
 @RequestMapping(path = "books")
 public class BookController {
     private static final Logger LOG = LoggerFactory.getLogger(BookController.class);
+
     private BookService bookService;
 
-    public BookController(BookService bookService) {
+    private JmsTemplate jmsTemplate;
+
+    public BookController(BookService bookService, JmsTemplate jmsTemplate) {
         this.bookService = bookService;
+        this.jmsTemplate = jmsTemplate;
     }
 
     @GetMapping(produces = "application/json;charset=utf-8")
@@ -42,5 +47,11 @@ public class BookController {
             response = new ResponseEntity<>(ErrorAnswerDto.from(e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return response;
+    }
+
+    @GetMapping(path = "register", produces = "application/json;charset=utf-8")
+    public ResponseEntity<Object> register() {
+        jmsTemplate.convertAndSend("public.book.register", "TEST");
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 }

@@ -3,6 +3,7 @@ package ru.ezhov.springlearning;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jms.annotation.EnableJms;
 import ru.ezhov.springlearning.book.domain.model.BookRepository;
 import ru.ezhov.springlearning.book.infrastructure.repository.InMemoryBookRepository;
 import springfox.documentation.builders.PathSelectors;
@@ -11,8 +12,9 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-@EnableSwagger2
 @Configuration
+@EnableSwagger2
+@EnableJms
 public class ApplicationConfiguration {
     @Bean
     public Docket swagger() {
